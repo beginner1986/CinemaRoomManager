@@ -4,34 +4,51 @@ import java.util.Scanner;
 
 public class Cinema {
 
-    final static int rows = 7;
-    final static int cols = 8;
-    char seats[][] = new char[rows][cols];
-
     public static void main(String[] args) {
-        // printSeats();
-
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the number of rows:");
         int rows = scanner.nextInt();
         System.out.println("Enter the number of seats in each row:");
         int cols = scanner.nextInt();
-        int profit = calculateProfit(rows, cols);
-        System.out.printf("Total income:\n$%d", profit);
+
+        // int profit = calculateProfit(rows, cols);
+        // System.out.printf("Total income:\n$%d", profit);
+
+        char seats[][] = new char[rows][cols];
+        fillSeats(seats);
+        printSeats(seats);
+
+        System.out.println("\nEnter a row number:");
+        int row = scanner.nextInt();
+        System.out.println("Enter a seat number in that row:");
+        int col = scanner.nextInt();
+        int price = calculateTicketPrice(seats, row, col);
+        System.out.printf("\n Ticket price: $%d\n", price);
+
+        seats[row-1][col-1] = 'B';
+        printSeats(seats);
     }
 
-    static void printSeats() {
+    static void fillSeats(char[][] seats) {
+        for(int i=0; i<seats.length; i++) {
+            for (int j = 0; j < seats[i].length; j++) {
+                seats[i][j] = 'S';
+            }
+        }
+    }
+
+    static void printSeats(char seats[][]) {
         System.out.println("Cinema:");
         System.out.print("  ");
-        for(int i=0; i<cols; i++) { {
+        for(int i=0; i< seats[0].length; i++) { {
             System.out.printf("%d ", i + 1);
         }}
         System.out.println();
 
-        for(int i=0; i<rows; i++) {
+        for(int i=0; i<seats.length; i++) {
             System.out.printf("%d ", i + 1);
-            for(int j=0; j<cols; j++) {
-                System.out.print("S ");
+            for(int j=0; j<seats[i].length; j++) {
+                System.out.print(seats[i][j] + " ");
             }
             System.out.println();
         }
@@ -50,5 +67,22 @@ public class Cinema {
         }
 
         return profit;
+    }
+
+    static int calculateTicketPrice(char seats[][], int row, int col) {
+        int price = 0;
+        int seatsCount = seats[0].length * seats.length;
+
+        if(seatsCount <= 60) {
+            price = 10;
+        } else {
+            if(row <= seats.length / 2) {
+                price = 10;
+            } else {
+                price = 8;
+            }
+        }
+
+        return price;
     }
 }
