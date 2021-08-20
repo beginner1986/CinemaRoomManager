@@ -1,5 +1,7 @@
 package cinema;
 
+import java.util.Scanner;
+
 public class Cinema {
 
     final static int rows = 7;
@@ -7,7 +9,15 @@ public class Cinema {
     char seats[][] = new char[rows][cols];
 
     public static void main(String[] args) {
-        printSeats();
+        // printSeats();
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number of rows:");
+        int rows = scanner.nextInt();
+        System.out.println("Enter the number of seats in each row:");
+        int cols = scanner.nextInt();
+        int profit = calculateProfit(rows, cols);
+        System.out.printf("Total income:\n$%d", profit);
     }
 
     static void printSeats() {
@@ -25,5 +35,20 @@ public class Cinema {
             }
             System.out.println();
         }
+    }
+
+    static int calculateProfit(int rows, int cols) {
+        int seatsCount = rows * cols;
+        int profit = 0;
+
+        if(seatsCount <= 60) {
+            profit = seatsCount * 10;
+        } else {
+            int expensive = rows / 2 * cols * 10;
+            int cheap = (rows - (rows / 2)) * cols * 8;
+            profit = expensive + cheap;
+        }
+
+        return profit;
     }
 }
