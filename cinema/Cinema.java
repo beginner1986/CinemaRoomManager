@@ -3,9 +3,9 @@ package cinema;
 import java.util.Scanner;
 
 public class Cinema {
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the number of rows:");
         int rows = scanner.nextInt();
         System.out.println("Enter the number of seats in each row:");
@@ -16,17 +16,29 @@ public class Cinema {
 
         char seats[][] = new char[rows][cols];
         fillSeats(seats);
-        printSeats(seats);
 
-        System.out.println("\nEnter a row number:");
-        int row = scanner.nextInt();
-        System.out.println("Enter a seat number in that row:");
-        int col = scanner.nextInt();
-        int price = calculateTicketPrice(seats, row, col);
-        System.out.printf("\n Ticket price: $%d\n", price);
+        int menuChoice = 9;
+        while(menuChoice != 0) {
+            showMneu();
+            menuChoice = scanner.nextInt();
 
-        seats[row-1][col-1] = 'B';
-        printSeats(seats);
+            switch(menuChoice) {
+                case 1:
+                    printSeats(seats);
+                    break;
+                case 2:
+                    buyTicket(seats);
+                    break;
+                default:
+                    continue;
+            }
+        }
+    }
+
+    static void showMneu() {
+        System.out.println("1. Show the seats");
+        System.out.println("2. Buy a ticket");
+        System.out.println("0. Exit");
     }
 
     static void fillSeats(char[][] seats) {
@@ -84,5 +96,15 @@ public class Cinema {
         }
 
         return price;
+    }
+
+    static void buyTicket(char[][] seats) {
+        System.out.println("\nEnter a row number:");
+        int row = scanner.nextInt();
+        System.out.println("Enter a seat number in that row:");
+        int col = scanner.nextInt();
+        int price = calculateTicketPrice(seats, row, col);
+        System.out.printf("\n Ticket price: $%d\n", price);
+        seats[row-1][col-1] = 'B';
     }
 }
